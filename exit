@@ -1,0 +1,47 @@
+[33mcommit 9769d6af22233340906590d58b1732f426a51aa3[m
+Author: Tanner Lai <laitanner@gmail.com>
+Date:   Wed Jun 25 19:51:30 2014 -0700
+
+    5.6 Exercises, error with #4
+
+[33mcommit f46509041d03334375accf0873ca6b7f5846fb7d[m
+Author: Tanner Lai <laitanner@gmail.com>
+Date:   Wed Jun 25 15:14:20 2014 -0700
+
+    Finish layout and routes
+
+[33mcommit 201833494681752cc619498462fd9c6f2f7dd8e8[m
+Author: Tanner Lai <laitanner@gmail.com>
+Date:   Fri Jun 20 00:00:51 2014 -0700
+
+    Add a full_title helper
+
+[33mcommit 926820e5712c3e37ed532519a441e8debd8d1eb4[m
+Author: Tanner Lai <laitanner@gmail.com>
+Date:   Thu Jun 19 03:56:52 2014 -0700
+
+    Add contact page and update StaticPages controller spec
+
+[33mcommit f7a495d5857dac1163ccd02b807c04dd92ef80f7[m
+Author: Tanner Lai <laitanner@gmail.com>
+Date:   Thu Jun 19 03:34:14 2014 -0700
+
+    Finish static pages
+
+[33mcommit 7842f3f18fb018ee0b5540b63f090386d798dd20[m
+Author: Tanner Lai <laitanner@gmail.com>
+Date:   Wed Jun 18 19:03:52 2014 -0700
+
+    Add a StaticPages controller
+
+[33mcommit b5d87fea7b0b93b5ea5a92b1e21a4be98afbc969[m
+Author: Tanner Lai <laitanner@gmail.com>
+Date:   Wed Jun 18 16:29:43 2014 -0700
+
+    Improve the README
+
+[33mcommit 5d15db73c2677ff7d0e193f7224c7b666cf8f4cd[m
+Author: Tanner Lai <laitanner@gmail.com>
+Date:   Wed Jun 18 16:28:50 2014 -0700
+
+    Initial commit
