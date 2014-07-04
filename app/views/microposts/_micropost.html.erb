@@ -3,9 +3,10 @@
   <span class="timestamp">
     Posted <%= time_ago_in_words(micropost.created_at) %> ago.
   </span>
-  <% if current_user?(micropost.user) %>
-    <%= link_to "delete", micropost, method: :delete,
+	<% if current_user?(micropost.user) %>
+		<%= render partial: "shared/delete_link", locals: { object: micropost } %>
+		<%#<%= link_to "delete", micropost method: :delete,
                                      data: { confirm: "You sure?" },
                                      title: micropost.content %>
-  <% end %>
+	<% end %>
 </li>

@@ -31,6 +31,16 @@ describe "Static pages" do
           expect(page).to have_selector("li##{item.id}", text: item.content)
         end
       end
+
+      it "should show the total feeds" do
+        expect(page).to have_content("micropost".pluralize(user.feed.count))
+      end
+
+      it "should paginate the user's feed" do
+        user.feed.paginate(page: 1).each do |item|
+          page.should have_selector("li##{item.id}", text: item.content)
+        end
+      end
     end
   end
 

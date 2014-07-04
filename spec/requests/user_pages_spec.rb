@@ -46,6 +46,13 @@ describe "User pages" do
             click_link('delete', match: :first)
           end.to change(User, :count).by(-1)
         end
+        
+        it "should not be able to delete themselves via DELETE" do
+          expect do
+            delete user_path(admin)
+          end.to change(User, :count).by(0)
+        end
+        
         it { should_not have_link('delete', href: user_path(admin)) }
       end
     end
@@ -65,6 +72,14 @@ describe "User pages" do
       it { should have_content(m1.content) }
       it { should have_content(m2.content) }
       it { should have_content(user.microposts.count) }
+
+      describe "should not be deletable by other users" do
+        let(:otheruser) { FactoryGirl.create(:user) }
+
+        before { visit user_path(otheruser) }
+
+        it { should_not have_link("delete") }
+      end
     end
   end
 
@@ -99,7 +114,7 @@ describe "User pages" do
         fill_in "Name",         with: "Example User"
         fill_in "Email",        with: "user@example.com"
         fill_in "Password",     with: "foobar"
-        fill_in "Confirmation", with: "foobar"
+        fill_in "Confirm Password", with: "foobar"
       end
 
       it "should create a user" do
@@ -123,6 +138,7 @@ describe "User pages" do
       sign_in user
       visit edit_user_path(user)
     end
+
 
     describe "page" do
       it { should have_content("Update your profile") }
@@ -166,4 +182,19 @@ describe "User pages" do
       specify { expect(user.reload).not_to be_admin }
     end
   end
+
+  describe "for signed in users" do
+      let(:user) { FactoryGirl.create(:user) }
+      before { sign_in user, no_capybara: true }
+
+      describe "using a 'new' action" do
+        before { get new_user_path }
+        specify { response.should redirect_to(root_path) }
+      end
+
+      describe "using a 'create' action" do
+        before { post users_path }
+        specify { response.should redirect_to(root_path) }
+      end    
+    end
 end
