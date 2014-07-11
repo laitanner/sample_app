@@ -42,6 +42,34 @@ describe "Static pages" do
         end
       end
 
+      describe "replies" do
+        let(:other_user) { FactoryGirl.create(:user) }
+        let(:third_user ) { FactoryGirl.create(:user) }
+        let(:post1) { FactoryGirl.create(:micropost, user: other_user, content: "@#{user.name}") }
+        
+        it "should show the reply post on the replied to user's page" do
+          expect(page).to have_content(post1.content)
+        end
+
+        it "should show the reply post on the replier's page" do
+          click_link "Sign out"
+          visit signin_path
+          fill_in "Email",    with: other_user.email
+          fill_in "Password", with: other_user.password
+          click_button "Sign in"
+          expect(page).to have_content(post1.content)
+        end
+
+        it "should not show the reply post on any other pages" do
+          click_link "Sign out"
+          visit signin_path
+          fill_in "Email",    with: third_user.email
+          fill_in "Password", with: third_user.password
+          click_button "Sign in"
+          expect(page).not_to have_content(post1.content)
+        end
+      end 
+
       describe "follower/following counts" do
         let(:other_user) { FactoryGirl.create(:user) }
         before do
