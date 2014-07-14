@@ -47,6 +47,8 @@ describe "Static pages" do
         let(:third_user ) { FactoryGirl.create(:user) }
         let(:post1) { FactoryGirl.create(:micropost, user: other_user, content: "#{user_name_reply(user)}") }
         
+        before { third_user.follow!(user) }
+        
         it "should show the reply post on the replied to user's page" do
           expect(page).to have_content(post1.content)
         end
