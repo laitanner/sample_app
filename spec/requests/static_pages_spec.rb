@@ -43,13 +43,22 @@ describe "Static pages" do
       end
 
       describe "replies" do
-        let(:second_user) { FactoryGirl.create(:user) }
-        let(:third_user ) { FactoryGirl.create(:user) }
-        let(:post1) { FactoryGirl.create(:micropost, user: third_user, content: "#{user_name_reply(user)}") }
+        let!(:second_user) { FactoryGirl.create(:user) }
+        let!(:third_user ) { FactoryGirl.create(:user) }
+        let!(:fourth_user) { FactoryGirl.create(:user) }
+        let!(:post1) { FactoryGirl.create(:micropost, user: third_user, content: "#{user_name_reply(fourth_user)}") }
         
-        before { second_user.follow!(third_user) }
+        before do 
+          second_user.follow!(third_user)
+          post1.set_to_id
+        end
         
         it "should show the reply post on the replied to user's homepage" do
+          click_link "Sign out"
+          visit signin_path
+          fill_in "Email",    with: fourth_user.email
+          fill_in "Password", with: fourth_user.password
+          click_button "Sign in"
           visit root_path
           expect(page).to have_content(post1.content)
         end
