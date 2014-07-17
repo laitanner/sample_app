@@ -2,7 +2,6 @@ class Micropost < ActiveRecord::Base
   include ApplicationHelper
   belongs_to :user
   default_scope -> { order('created_at DESC') }
-  scope :get_replies, ->(user) { where({ to_id: user.id }) }
   validates :content, presence: true, length: { maximum: 140 }
   validates :user_id, presence: true
 
@@ -11,7 +10,7 @@ class Micropost < ActiveRecord::Base
   def self.from_users_followed_by(user)
     followed_user_ids = "SELECT followed_id FROM relationships
                          WHERE follower_id = :user_id"
-    where("user_id IN (#{followed_user_ids} AND to_id = 0) OR user_id = :user_id",
+    where("user_id IN (#{followed_user_ids} AND to_id = 0) OR user_id = :user_id OR to_id = :user_id",
           user_id: user.id)
   end
 
