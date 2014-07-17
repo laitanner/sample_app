@@ -43,31 +43,34 @@ describe "Static pages" do
       end
 
       describe "replies" do
-        let(:other_user) { FactoryGirl.create(:user) }
+        let(:second_user) { FactoryGirl.create(:user) }
         let(:third_user ) { FactoryGirl.create(:user) }
-        let(:post1) { FactoryGirl.create(:micropost, user: other_user, content: "#{user_name_reply(user)}") }
+        let(:post1) { FactoryGirl.create(:micropost, user: third_user, content: "#{user_name_reply(user)}") }
         
-        before { third_user.follow!(user) }
+        before { second_user.follow!(third_user) }
         
-        it "should show the reply post on the replied to user's page" do
+        it "should show the reply post on the replied to user's homepage" do
+          visit root_path
           expect(page).to have_content(post1.content)
         end
 
-        it "should show the reply post on the replier's page" do
+        it "should show the reply post on the replier's homepage" do
           click_link "Sign out"
           visit signin_path
-          fill_in "Email",    with: other_user.email
-          fill_in "Password", with: other_user.password
+          fill_in "Email",    with: third_user.email
+          fill_in "Password", with: third_user.password
           click_button "Sign in"
+          visit root_path
           expect(page).to have_content(post1.content)
         end
 
         it "should not show the reply post on any other pages" do
           click_link "Sign out"
           visit signin_path
-          fill_in "Email",    with: third_user.email
-          fill_in "Password", with: third_user.password
+          fill_in "Email",    with: second_user.email
+          fill_in "Password", with: second_user.password
           click_button "Sign in"
+          visit root_path
           expect(page).not_to have_content(post1.content)
         end
       end 

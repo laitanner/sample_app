@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
   end
 
   def feed
+    Micropost.get_replies(self)
     Micropost.from_users_followed_by(self)
   end
 
