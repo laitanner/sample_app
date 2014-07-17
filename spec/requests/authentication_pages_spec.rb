@@ -72,14 +72,14 @@ describe "Authentication" do
               fill_in "Email",    with: user.email
               fill_in "Password", with: user.password
               click_button "Sign in"
-          end
+            end
 
-          it "should render the default (profile) page" do
-            expect(page).to have_title(user.name)
+            it "should render the default (profile) page" do
+              expect(page).to have_title(user.name)
+            end
           end
         end
       end
-    end
 
       describe "in the Users controller" do
 
