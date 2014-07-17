@@ -15,4 +15,12 @@ describe ApplicationHelper do
 			expect(full_title("")).not_to match(/\|/)
 		end
 	end
+
+	describe "user_name_reply" do
+		let(:user) { User.new(name:"Person 40",email:"123@123.com",password:"123456") }
+
+		it "should follow the format of '@userid-name-separated-by-dashes" do
+			expect(user_name_reply(user)).to match(/@#{user.id}-person-40/)
+		end
+	end
 end
