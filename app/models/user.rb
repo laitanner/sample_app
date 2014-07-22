@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
   has_many :microposts, dependent: :destroy
+  has_many :sent_messages, class_name: "Message", foreign_key: "addresser_id"
+  has_many :received_messages, class_name: "Message", foreign_key: "addressee_id" 
   has_many :relationships, foreign_key: "follower_id", dependent: :destroy
   has_many :followed_users, through: :relationships, source: :followed
   has_many :reverse_relationships, foreign_key: "followed_id",
