@@ -42,6 +42,20 @@ describe "Static pages" do
         end
       end
 
+      describe "message modal" do
+        let(:user2) { FactoryGirl.create(:user) }
+        let(:sent_message) { user.sent_messages.build(content: "Lorem ipsum", addresser_id: user.id, addressee_id: user2.id) }
+        let(:received_message) { user2.sent_messages.build(content: "Lorem ipsum", addresser_id: user2.id, addressee_id: user.id) }
+        describe "opening the message modal" do
+          before { click_link "Messages" }
+
+          it "should contain the user's messages" do
+            expect(page).to have_content(sent_message.content)
+            expect(page).to have_content(received_message.content)
+          end
+        end
+      end
+
       describe "replies" do
         let!(:second_user) { FactoryGirl.create(:user) }
         let!(:third_user ) { FactoryGirl.create(:user) }

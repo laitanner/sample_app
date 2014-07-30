@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Message do
   let(:user1) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
-  let(:message){ user1.sent_messages.build(content: "Lorem ipsum", addressee_id: user2.id) }
+  let(:message){ user1.sent_messages.build(content: "Lorem ipsum", addresser_id: user1.id, addressee_id: user2.id) }
   
   subject { message }
 
