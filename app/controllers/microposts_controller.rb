@@ -5,10 +5,17 @@ class MicropostsController < ApplicationController
 
   def create
     @micropost = current_user.microposts.build(micropost_params)
+    #make a message
     if(@micropost.message_recipient != 0)
-      make_message(current_user, @micropost)
-      flash[:success] = "Message created!"
-      redirect_to root_url
+      if(@micropost.message_recipient == current_user.id)
+        flash[:error] = "You cannot message yourself."
+        redirect_to root_url
+      else
+        make_message(current_user, @micropost)
+        flash[:success] = "Message created!"
+        redirect_to root_url
+      end
+    #make a micropost
     else
       if (@micropost.save)
         @micropost.set_to_id

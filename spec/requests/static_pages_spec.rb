@@ -44,14 +44,19 @@ describe "Static pages" do
 
       describe "message modal" do
         let(:user2) { FactoryGirl.create(:user) }
-        let(:sent_message) { user.sent_messages.build(content: "Lorem ipsum", addresser_id: user.id, addressee_id: user2.id) }
-        let(:received_message) { user2.sent_messages.build(content: "Lorem ipsum", addresser_id: user2.id, addressee_id: user.id) }
+
+        before do 
+          fill_in 'micropost_content', with: "d#{user2.id}-example-user"
+          click_button "Post"
+        end
+
         describe "opening the message modal" do
-          before { click_link "Messages" }
+          before do 
+            click_link "Messages" 
+          end
 
           it "should contain the user's messages" do
-            expect(page).to have_content(sent_message.content)
-            expect(page).to have_content(received_message.content)
+            expect(page).to have_content("d#{user2.id}-example-user")
           end
         end
       end

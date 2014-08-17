@@ -18,11 +18,19 @@ describe "Message pages" do
       before { fill_in 'micropost_content', with: "d#{user2.id}-example-user" }
 
       it "should create a message" do
-        expect { click_button "Post" }.to change(Message, :count).by(2)
+        expect { click_button "Post" }.to change(Message, :count).by(1)
       end
 
       it "should not create a micropost" do
         expect { click_button "Post" }.not_to change(Micropost, :count)
+      end
+
+      describe "that is addressed to the user themselves" do
+        before { fill_in 'micropost_content', with: "d#{user.id}-example-user" }
+
+        it "should not create a message" do
+          expect { click_button "Post" }.to change(Message, :count).by(0)
+        end
       end
     end
   end

@@ -14,7 +14,7 @@ class Micropost < ActiveRecord::Base
           user_id: user.id)
   end
 
-  # Sets to_id
+  # Sets to_id. to_id is the id of the user that the reply is for.
   def set_to_id
     user_name = self.content
     if user_name.index("-") != nil
