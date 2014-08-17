@@ -29,6 +29,14 @@ class User < ActiveRecord::Base
     Micropost.from_users_followed_by(self)
   end
 
+  def sent_message_feed
+    Message.my_sent_messages(self)
+  end
+
+  def received_message_feed
+    Message.my_received_messages(self)
+  end
+
   def following?(other_user)
     relationships.find_by(followed_id: other_user.id)
   end
