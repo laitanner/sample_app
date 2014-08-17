@@ -2,7 +2,7 @@
   <ol class="messages">
 	  <% @messages.each do |message| %>
 	    <li id="<%= message.id %>">
-				<% if message.addresser_id == current_user.id %>
+				<% if message.user_id == current_user.id %>
 				  <%= link_to gravatar_for(User.find(message.addressee_id)), User.find(message.addressee_id) %>
 					  <span class="To:">
 					    <strong>To:</strong>
@@ -14,11 +14,11 @@
 					  </span>
 				      <%= render partial: "shared/delete_link", locals: { object: message } %>
 				<% end %>
-				<% if message.addressee_id == User.find(message.addressee_id) %>
-					<%= link_to gravatar_for(current_user), current_user %>
+				<% if message.addressee_id == current_user.id %>
+					<%= link_to gravatar_for(User.find(message.user_id)), User.find(message.user_id) %>
 					  <span class="From:">
 					    <strong>From:</strong>
-					    <%= link_to current_user.name, current_user %>
+					    <%= link_to User.find(message.user_id).name, User.find(message.user_id) %>
 					  </span>
 					  <span class="content"><%= wrap(message.content) %></span>
 					  <span class="timestamp">
@@ -28,4 +28,6 @@
 		  </li>
     <% end %>
   </ol>
+<% else %>
+	<p>No messages</p>
 <% end %>

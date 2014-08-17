@@ -1,7 +1,6 @@
 class User < ActiveRecord::Base
   has_many :microposts, dependent: :destroy
-  has_many :sent_messages, class_name: "Message", foreign_key: "addresser_id"
-  has_many :received_messages, class_name: "Message", foreign_key: "addressee_id" 
+  has_many :messages
   has_many :relationships, foreign_key: "follower_id", dependent: :destroy
   has_many :followed_users, through: :relationships, source: :followed
   has_many :reverse_relationships, foreign_key: "followed_id",
@@ -29,12 +28,8 @@ class User < ActiveRecord::Base
     Micropost.from_users_followed_by(self)
   end
 
-  def sent_message_feed
-    Message.my_sent_messages(self)
-  end
-
-  def received_message_feed
-    Message.my_received_messages(self)
+  def message_feed
+    Message.my_messages(self)
   end
 
   def following?(other_user)

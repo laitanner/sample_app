@@ -57,11 +57,8 @@
   # Creates message if micropost is intended to be a direct message
   def make_message(user, micropost)
     if (micropost.message_recipient != 0)
-      send_out = user.sent_messages.build(content: micropost.content, addresser_id: user.id, addressee_id: micropost.message_recipient)
+      send_out = user.messages.build(content: micropost.content, user_id: user.id, addressee_id: micropost.message_recipient)
       send_out.save
-      receiving_user = User.find(micropost.message_recipient)
-      coming_in = receiving_user.received_messages.build(content: micropost.content, addresser_id: user.id, addressee_id: micropost.message_recipient)
-      coming_in.save
     else
       return nil
     end
