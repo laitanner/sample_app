@@ -1,6 +1,33 @@
 <% if @messages.any? %>
   <ol class="messages">
-	  <% @messages.each do |message| %>
+	  <% messages = @messages %>
+	  <% first_message = messages.shift %>
+	  	 <li id="first-message">
+				<% if first_message.user_id == current_user.id %>
+				  <%= link_to gravatar_for(User.find(first_message.addressee_id)), User.find(first_message.addressee_id) %>
+					  <span class="To:">
+					    <strong>To:</strong>
+					    <%= link_to User.find(first_message.addressee_id).name, User.find(first_message.addressee_id) %>
+					  </span>
+					  <span class="content"><%= wrap(first_message.content) %></span>
+					  <span class="timestamp">
+					    Sent <%= time_ago_in_words(first_message.created_at) %> ago.
+					  </span>
+				      <%= render partial: "shared/delete_link", locals: { object: first_message } %>
+				<% end %>
+				<% if first_message.addressee_id == current_user.id %>
+					<%= link_to gravatar_for(User.find(first_message.user_id)), User.find(first_message.user_id) %>
+					  <span class="From:">
+					    <strong>From:</strong>
+					    <%= link_to User.find(first_message.user_id).name, User.find(first_message.user_id) %>
+					  </span>
+					  <span class="content"><%= wrap(first_message.content) %></span>
+					  <span class="timestamp">
+					    Sent <%= time_ago_in_words(first_message.created_at) %> ago.
+					  </span>
+				<% end %>
+		  </li>
+	  <% messages.each do |message| %>
 	    <li id="<%= message.id %>">
 				<% if message.user_id == current_user.id %>
 				  <%= link_to gravatar_for(User.find(message.addressee_id)), User.find(message.addressee_id) %>
