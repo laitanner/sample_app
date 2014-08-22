@@ -39,4 +39,37 @@ describe RelationshipsController do
       expect(response).to be_success
     end
   end
+
+  describe "creating a relationship via REST API request" do
+
+    it "should increment the Relationship count" do
+      expect do
+      	post :create, relationship: { followed_id: other_user.id }, format: 'xml'
+      end.to change(Relationship, :count).by(1)
+    end
+
+    it "should respond with success" do
+      post :create, relationship: { followed_id: other_user.id }, format: 'xml'
+      expect(response).to be_success
+    end
+  end
+
+  describe "destroying a relationship via REST API request" do
+
+    before { user.follow!(other_user) }
+    let(:relationship) do
+      user.relationships.find_by(followed_id: other_user.id)
+    end
+
+    it "should decrement the Relationship count" do
+      expect do
+        delete :destroy, id: relationship.id, format: 'xml'
+      end.to change(Relationship, :count).by(-1)
+    end
+
+    it "should respond with success" do
+      delete :destroy, id: relationship.id, format: 'xml'
+      expect(response).to be_success
+    end
+  end
 end
