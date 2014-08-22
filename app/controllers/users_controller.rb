@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   before_action :signed_out_user, only: [:create, :new]
   before_action :correct_user,   only: [:edit, :update]
   before_action :admin_user,     only: :destroy
+  respond_to :html, :xml
 
   def index
     @users = User.paginate(page: params[:page])
@@ -12,6 +13,8 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @microposts = @user.microposts.paginate(page: params[:page])
+    # respond_with(@user, @microposts)
+    respond_with @microposts
   end
 
   def new
