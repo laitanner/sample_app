@@ -1,22 +1,28 @@
 class MicropostsController < ApplicationController
   before_action :signed_in_user, only: [:create, :destroy]
   before_action :correct_user,   only: :destroy
+  respond_to :html, :xml
 
   def create
     @micropost = current_user.microposts.build(micropost_params)
     if @micropost.save
-      #@micropost.set_to_id
       flash[:success] = "Micropost created!"
-      redirect_to root_url
     else
+      flash[:error] = "Invalid micropost content error."
       @feed_items = []
-      render 'static_pages/home'
+    end
+    respond_with(@micropost) do |format|
+      format.html { redirect_to root_url }
+      format.xml
     end
   end
 
   def destroy
     @micropost.destroy
-    redirect_to root_url
+    respond_with(@micropost) do |format|
+      format.html { redirect_to root_url }
+      format.xml
+    end
   end
 
   private
