@@ -36,12 +36,28 @@ describe "RESTful API" do
   end
 
   describe "getting all users with index action" do
-  	let(:other_user) { FactoryGirl.create(:user) }
+  	let!(:other_user) { FactoryGirl.create(:user) }
+  	before { get users_path, format: 'xml' }
+
+  	it "should have the right number of users" do
+  	  users = Hash.from_xml(response.body)['users']
+  	  assert_equal users.length, 2, "Number of users was not correct"
+  	end
 
   	it "should respond with actual users" do
+  	  users = Hash.from_xml(response.body)['users']
+
+  	  assert_equal users.first['id'], user.id
+  	  assert_equal users.first['email'], user.email
+  	  assert_equal users.first['name'], user.name
+
+  	  assert_equal users.last['id'], other_user.id
+  	  assert_equal users.last['email'], other_user.email
+  	  assert_equal users.last['name'], other_user.name
   	end
 
   	it "should respond with success" do
+  	  expect(response).to be_success
   	end
   end
 

@@ -8,12 +8,12 @@ class UsersController < ApplicationController
 
   def index
     @users = User.paginate(page: params[:page])
+    respond_with @users
   end
   
   def show
     @user = User.find(params[:id])
     @microposts = @user.microposts.paginate(page: params[:page])
-    # respond_with(@user, @microposts)
     respond_with @microposts
   end
 
