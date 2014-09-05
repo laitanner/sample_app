@@ -42,6 +42,25 @@ describe "Static pages" do
         end
       end
 
+      describe "message modal" do
+        let(:user2) { FactoryGirl.create(:user) }
+
+        before do 
+          fill_in 'micropost_content', with: "d#{user2.id}-example-user"
+          click_button "Post"
+        end
+
+        describe "opening the message modal" do
+          before do 
+            click_link "Messages" 
+          end
+
+          it "should contain the user's messages" do
+            expect(page).to have_content("d#{user2.id}-example-user")
+          end
+        end
+      end
+
       describe "replies" do
         let!(:second_user) { FactoryGirl.create(:user) }
         let!(:third_user ) { FactoryGirl.create(:user) }

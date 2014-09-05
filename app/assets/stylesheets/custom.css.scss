@@ -252,3 +252,19 @@ aside {
   padding-left: 30px;
   color: $grayLight;
 }
+
+/* message modal */
+
+.messages {
+  list-style: none;
+  margin: 10px 0 0 0;
+
+  li:not(#first-message) {
+    padding: 10px 0;
+    border-top: 1px solid #e8e8e8;
+  }
+
+  #first-message {
+    padding: 10px 0;
+  }
+}

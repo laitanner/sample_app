@@ -5,8 +5,5 @@
   </span>
 	<% if current_user?(micropost.user) %>
 		<%= render partial: "shared/delete_link", locals: { object: micropost } %>
-		<%#<%= link_to "delete", micropost method: :delete,
-                                     data: { confirm: "You sure?" },
-                                     title: micropost.content %>
 	<% end %>
 </li>

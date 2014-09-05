@@ -14,13 +14,27 @@ class Micropost < ActiveRecord::Base
           user_id: user.id)
   end
 
-  # Sets to_id
+  # Sets to_id. to_id is the id of the user that the reply is for.
   def set_to_id
     user_name = self.content
     if user_name.index("-") != nil
       if user_name[0..user_name.index('-')].match(/@\S+-/)
-        self.update(to_id: user_name[1..user_name.index('-')-1].to_f)
+        self.update(to_id: user_name[1..user_name.index('-')-1].to_i)
       end
+    end
+  end
+
+  #returns message recipient id if micropost is intended to be a direct message, 0 if not
+  def message_recipient
+    user_name = self.content
+    if user_name.index("-") != nil
+      if user_name[0..user_name.index('-')].match(/d\S+-/)
+        return user_name[1..user_name.index('-')-1].to_i
+      else
+        return 0
+      end
+    else
+      return 0
     end
   end
 end
